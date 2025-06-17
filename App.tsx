@@ -17,7 +17,9 @@ import {
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import HomeScreen from './HomeScreen';
+import HomeScreen from '@/screens/HomeScreen';
+// import Card from '@/components/Card';
+
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -35,6 +37,7 @@ const App = () => {
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
         <HomeScreen />
+        {/*<Card />*/}
       </ScrollView>
     </SafeAreaView>
   );
