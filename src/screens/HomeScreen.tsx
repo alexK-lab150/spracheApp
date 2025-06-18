@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {showCardModal} from 'src/redux/slices/uiSlice';
+import {showCardModal, showLearningScreen} from 'src/redux/slices/uiSlice';
 import CardModal from './../components/CardModal';
 import {RootState} from 'src/redux/store';
 
@@ -29,7 +29,9 @@ const HomeScreen = () => {
           <StatBox number="3538" label="Gelernt" color="#CCAA00" />
         </View>
 
-        <TouchableOpacity style={styles.startButton}>
+        <TouchableOpacity
+          style={styles.startButton}
+          onPress={() => dispatch(showLearningScreen())}>
           <Text style={styles.startButtonText}>ANFANG</Text>
         </TouchableOpacity>
 

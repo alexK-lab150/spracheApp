@@ -7,6 +7,7 @@ export interface Card {
   word: string;
   translation: string;
   setId: string | null;
+  rating: number;
   status: 'new' | 'learning' | 'known';
   createdAt: number;
 }
@@ -19,6 +20,9 @@ const initialState: CardsState = {
   cards: [],
 };
 
+// prepareAddCard is responsible for preparing and normalizing the data
+// before it reaches the reducer. It ensures all required fields are generated,
+// such as unique id, timestamp, and default status, and that inputs are sanitized.
 const prepareAddCard = ({
   word,
   translation,
@@ -35,6 +39,7 @@ const prepareAddCard = ({
       translation: translation.trim(),
       setId: setId ?? null,
       status: 'new' as const,
+      rating: 0,
       createdAt: Date.now(),
     },
   };
@@ -89,6 +94,26 @@ const cardsSlice = createSlice({
       }
     },
 
+    // обновления рейтинга карточки и статуса обучения
+    updateCardRating: (
+      state,
+      action: PayloadAction<{id: string; delta: number}>,
+    ) => {
+      const card = state.cards.find(c => c.id === action.payload.id);
+      if (card) {
+        card.rating += action.payload.delta;
+
+        // обновление статуса, если достигнут порог
+        if (card.rating >= 50) {
+          card.status = 'known';
+        } else if (card.rating > 0) {
+          card.status = 'learning';
+        } else {
+          card.status = 'new';
+        }
+      }
+    },
+
     setCards: (state, action: PayloadAction<Card[]>) => {
       state.cards = action.payload;
     },
@@ -99,7 +124,13 @@ const cardsSlice = createSlice({
   },
 });
 
-export const {addCard, removeCard, updateCard, setCards, clearCards} =
-  cardsSlice.actions;
+export const {
+  addCard,
+  removeCard,
+  updateCard,
+  updateCardRating,
+  setCards,
+  clearCards,
+} = cardsSlice.actions;
 
 export default cardsSlice.reducer;
