@@ -8,6 +8,7 @@ const Card = () => {
       <View style={styles.swipeInstructions}>
         <Text style={styles.swipeTextLeft}>
           Wenn du es nicht wusstest{'\n'}
+          check git
           <Text style={styles.bold}>nach links wischen</Text>
         </Text>
         <Text style={styles.swipeTextRight}>
