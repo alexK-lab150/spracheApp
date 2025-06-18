@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {v4 as uuidv4} from 'uuid';
+import {generateCustomId} from '../../utils/polifils';
 import {ToastAndroid} from 'react-native';
 
 export interface Card {
@@ -30,7 +30,7 @@ const prepareAddCard = ({
 }) => {
   return {
     payload: {
-      id: uuidv4(),
+      id: generateCustomId(),
       word: word.trim(),
       translation: translation.trim(),
       setId: setId ?? null,

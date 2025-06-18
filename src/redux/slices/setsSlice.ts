@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {v4 as uuidv4} from 'uuid';
+import {generateCustomId} from '../../utils/polifils';
 
 export type Set = {
   id: string;
@@ -36,7 +36,7 @@ const setsSlice = createSlice({
       }
 
       const newSet: Set = {
-        id: uuidv4(),
+        id: generateCustomId(),
         name: name.trim(),
         description: description.trim(),
         createdAt: Date.now(),
