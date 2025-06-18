@@ -15,10 +15,11 @@ import {
   StatusBar,
   useColorScheme,
 } from 'react-native';
-
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+import {store, persistor} from './src/redux/store';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import HomeScreen from '@/screens/HomeScreen';
-// import Card from '@/components/Card';
+import HomeScreen from './src/screens/HomeScreen';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -28,18 +29,21 @@ const App = () => {
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <HomeScreen />
-        {/*<Card />*/}
-      </ScrollView>
-    </SafeAreaView>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <SafeAreaView style={backgroundStyle}>
+          <StatusBar
+            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            backgroundColor={backgroundStyle.backgroundColor}
+          />
+          <ScrollView
+            contentInsetAdjustmentBehavior="automatic"
+            style={backgroundStyle}>
+            <HomeScreen />
+          </ScrollView>
+        </SafeAreaView>
+      </PersistGate>
+    </Provider>
   );
 };
 

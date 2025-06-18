@@ -7,8 +7,17 @@ import {
   SafeAreaView,
   ScrollView,
 } from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {showCardModal} from 'src/redux/slices/uiSlice';
+import CardModal from './../components/CardModal';
+import {RootState} from 'src/redux/store';
 
 const HomeScreen = () => {
+  const dispatch = useDispatch();
+  const isCardModalVisible = useSelector(
+    (state: RootState) => state.ui.isCardModalVisible,
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.inner}>
@@ -26,7 +35,9 @@ const HomeScreen = () => {
 
         <View style={styles.cardSection}>
           <Text style={styles.cardLabel}>Karten</Text>
-          <TouchableOpacity style={styles.addButton}>
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => dispatch(showCardModal())}>
             <Text style={styles.addButtonText}>＋</Text>
           </TouchableOpacity>
         </View>
@@ -37,6 +48,8 @@ const HomeScreen = () => {
           <Text style={styles.navItem}>KONTO</Text>
         </View>
       </ScrollView>
+
+      <CardModal isVisible={isCardModalVisible} />
     </SafeAreaView>
   );
 };
