@@ -13,6 +13,7 @@ import {BlurView} from '@react-native-community/blur';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import {Card} from '../redux/slices/cardsSlice';
 import {hideLearningScreen} from '../redux/slices/uiSlice';
+import Icon from 'react-native-vector-icons/FontAwesome6';
 
 const {height} = Dimensions.get('window');
 
@@ -81,7 +82,21 @@ const LearningScreen = () => {
         <View style={styles.card}>
           <Text style={styles.cardWord}>{word}</Text>
           {isTranslationVisible ? (
-            <Text style={styles.cardTranslation}>{translation}</Text>
+            <View style={styles.translationBlock}>
+              <Text style={styles.cardTranslation}>{translation}</Text>
+              <View style={styles.actionButtons}>
+                <TouchableOpacity
+                  style={styles.wrongButton}
+                  onPress={() => handleSwipe('left')}>
+                  <Icon name="xmark" size={24} color="#fff" />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.correctButton}
+                  onPress={() => handleSwipe('right')}>
+                  <Icon name="check" size={24} color="#fff" />
+                </TouchableOpacity>
+              </View>
+            </View>
           ) : (
             <BlurView style={styles.blur} blurType="light" blurAmount={10} />
           )}
@@ -150,6 +165,40 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 30,
     borderRadius: 4,
+  },
+  translationBlock: {
+    alignItems: 'center',
+  },
+  actionButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    marginTop: 20,
+    paddingHorizontal: 40,
+  },
+  correctButton: {
+    backgroundColor: '#00C851',
+    width: 50,
+    height: 50,
+    borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowOffset: {width: 0, height: 2},
+    elevation: 5,
+  },
+  wrongButton: {
+    backgroundColor: '#ff4444',
+    width: 50,
+    height: 50,
+    borderRadius: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowOffset: {width: 0, height: 2},
+    elevation: 5,
   },
   footer: {
     height: height * 0.1,
