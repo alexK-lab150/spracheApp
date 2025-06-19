@@ -11,9 +11,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {showCardModal, showLearningScreen} from 'src/redux/slices/uiSlice';
 import CardModal from './../components/CardModal';
 import {RootState} from 'src/redux/store';
+import {selectCardStats} from 'src/redux/selectors/cardsSelectors';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
+  const {newCount, learningCount, knownCount} = useSelector(selectCardStats);
   const isCardModalVisible = useSelector(
     (state: RootState) => state.ui.isCardModalVisible,
   );
@@ -24,9 +26,21 @@ const HomeScreen = () => {
         <Text style={styles.title}>Deutsch</Text>
 
         <View style={styles.statsContainer}>
-          <StatBox number="390" label="Lernen" color="#00AA00" />
-          <StatBox number="11" label="Bekannt" color="#0077CC" />
-          <StatBox number="3538" label="Gelernt" color="#CCAA00" />
+          <StatBox
+            number={newCount.toString()}
+            label="Lernen"
+            color="#00AA00"
+          />
+          <StatBox
+            number={learningCount.toString()}
+            label="Bekannt"
+            color="#0077CC"
+          />
+          <StatBox
+            number={knownCount.toString()}
+            label="Gelernt"
+            color="#CCAA00"
+          />
         </View>
 
         <TouchableOpacity

@@ -99,18 +99,19 @@ const cardsSlice = createSlice({
       state,
       action: PayloadAction<{id: string; delta: number}>,
     ) => {
-      const card = state.cards.find(c => c.id === action.payload.id);
-      if (card) {
-        card.rating += action.payload.delta;
+      const {id, delta} = action.payload;
+      const card = state.cards.find(c => c.id === id);
+      if (!card) return;
 
-        // обновление статуса, если достигнут порог
-        if (card.rating >= 50) {
-          card.status = 'known';
-        } else if (card.rating > 0) {
-          card.status = 'learning';
-        } else {
-          card.status = 'new';
-        }
+      card.rating = Math.max(0, card.rating + delta); // рейтинг не ниже 0
+
+      // обновление статуса в зависимости от рейтинга
+      if (card.rating >= 50) {
+        card.status = 'known';
+      } else if (card.rating >= 30) {
+        card.status = 'learning';
+      } else {
+        card.status = 'new';
       }
     },
 
