@@ -12,6 +12,7 @@ import {showCardModal, showLearningScreen} from 'src/redux/slices/uiSlice';
 import CardModal from './../components/CardModal';
 import {RootState} from 'src/redux/store';
 import {selectCardStats} from 'src/redux/selectors/cardsSelectors';
+import Icon from 'react-native-vector-icons/FontAwesome6';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -23,7 +24,13 @@ const HomeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.inner}>
-        <Text style={styles.title}>Deutsch</Text>
+        <View style={styles.header}>
+          <Text style={styles.title}>Deutsch</Text>
+          <View style={styles.ratingContainer}>
+            <Icon name="chart-simple" size={20} color="#0077CC" />
+            <Text style={styles.ratingText}>125</Text>
+          </View>
+        </View>
 
         <View style={styles.statsContainer}>
           <StatBox
@@ -94,11 +101,39 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 20,
   },
+
   title: {
-    fontSize: 22,
-    fontWeight: '600',
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    paddingHorizontal: 20,
+    paddingTop: 10,
     marginBottom: 20,
   },
+
+  ratingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#eef6ff',
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 8,
+  },
+
+  ratingText: {
+    marginLeft: 6,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#0077CC',
+  },
+
   statsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
