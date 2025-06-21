@@ -1,17 +1,25 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {generateCustomId} from '../../utils/polifils';
 
+export type SetCategory =
+  | 'umschulung'
+  | 'alltag'
+  | 'beruf'
+  | 'akademisch'
+  | 'medizin';
+
 export type Set = {
   id: string;
   name: string;
   description: string;
   createdAt: number;
   updatedAt: number;
+  category: SetCategory;
 };
 
-interface SetsState {
+type SetsState = {
   sets: Set[];
-}
+};
 
 const initialState: SetsState = {
   sets: [],
@@ -23,15 +31,19 @@ const setsSlice = createSlice({
   reducers: {
     addSet: (
       state,
-      action: PayloadAction<{name: string; description: string}>,
+      action: PayloadAction<{
+        name: string;
+        description: string;
+        category: SetCategory;
+      }>,
     ) => {
-      const {name, description} = action.payload;
+      const {name, description, category} = action.payload;
 
-      // Проверка на дубликат имени
-      const duplicate = state.sets.find(
-        set => set.name.toLowerCase() === name.trim().toLowerCase(),
+      const normalizedName = name.trim().toLowerCase();
+      const isDuplicate = state.sets.some(
+        set => set.name.toLowerCase() === normalizedName,
       );
-      if (duplicate) {
+      if (isDuplicate) {
         throw new Error(`Набор "${name}" уже существует.`);
       }
 
@@ -39,9 +51,11 @@ const setsSlice = createSlice({
         id: generateCustomId(),
         name: name.trim(),
         description: description.trim(),
+        category,
         createdAt: Date.now(),
         updatedAt: Date.now(),
       };
+
       state.sets.push(newSet);
     },
 
@@ -51,11 +65,10 @@ const setsSlice = createSlice({
     ) => {
       const {id, newName} = action.payload;
 
-      // Проверка уникальности нового имени
-      const duplicate = state.sets.find(
+      const isDuplicate = state.sets.some(
         set => set.name.toLowerCase() === newName.trim().toLowerCase(),
       );
-      if (duplicate) {
+      if (isDuplicate) {
         throw new Error(`Набор "${newName}" уже существует.`);
       }
 

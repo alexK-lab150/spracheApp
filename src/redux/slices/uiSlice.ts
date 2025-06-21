@@ -3,11 +3,13 @@ import {createSlice} from '@reduxjs/toolkit';
 interface UIState {
   isCardModalVisible: boolean;
   isLearningScreenVisible: boolean;
+  isLibraryScreenVisible: boolean;
 }
 
 const initialState: UIState = {
   isCardModalVisible: false,
   isLearningScreenVisible: false,
+  isLibraryScreenVisible: false,
 };
 
 const uiSlice = createSlice({
@@ -26,6 +28,9 @@ const uiSlice = createSlice({
     hideLearningScreen(state) {
       state.isLearningScreenVisible = false;
     },
+    toggleLibraryScreen(state) {
+      state.isLibraryScreenVisible = !state.isLibraryScreenVisible;
+    },
   },
 });
 
@@ -34,5 +39,6 @@ export const {
   hideCardModal,
   showLearningScreen,
   hideLearningScreen,
+  toggleLibraryScreen,
 } = uiSlice.actions;
 export default uiSlice.reducer;

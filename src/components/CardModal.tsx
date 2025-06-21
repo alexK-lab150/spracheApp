@@ -11,7 +11,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {hideCardModal} from 'src/redux/slices/uiSlice';
 import {addCard} from 'src/redux/slices/cardsSlice';
-import {addSet} from 'src/redux/slices/setsSlice';
+// import {addSet} from 'src/redux/slices/setsSlice';
 import {RootState} from 'src/redux/store';
 
 interface CardModalProps {
@@ -39,13 +39,7 @@ const CardModal: React.FC<CardModalProps> = () => {
   };
 
   const handleSave = () => {
-    const {
-      germanWord,
-      translation,
-      newSetName,
-      newSetDescription,
-      selectedSetId,
-    } = formData;
+    const {germanWord, translation, newSetName, selectedSetId} = formData;
 
     // Валидация
     if (!germanWord.trim() || !translation.trim()) {
@@ -81,12 +75,12 @@ const CardModal: React.FC<CardModalProps> = () => {
         return;
       }
 
-      dispatch(
-        addSet({
-          name: newSetName.trim(),
-          description: newSetDescription.trim(),
-        }),
-      );
+      // dispatch(
+      //   addSet({
+      //     name: newSetName.trim(),
+      //     description: newSetDescription.trim(),
+      //   }),
+      // );
     }
 
     // Сохранение карточки
@@ -130,21 +124,21 @@ const CardModal: React.FC<CardModalProps> = () => {
             onChangeText={text => handleInputChange('translation', text)}
           />
 
-          <Text style={styles.sectionTitle}>Или создайте новый набор:</Text>
+          {/*<Text style={styles.sectionTitle}>Или создайте новый набор:</Text>*/}
 
-          <TextInput
-            placeholder="Название набора"
-            style={styles.input}
-            value={formData.newSetName}
-            onChangeText={text => handleInputChange('newSetName', text)}
-          />
+          {/*<TextInput*/}
+          {/*  placeholder="Название набора"*/}
+          {/*  style={styles.input}*/}
+          {/*  value={formData.newSetName}*/}
+          {/*  onChangeText={text => handleInputChange('newSetName', text)}*/}
+          {/*/>*/}
 
-          <TextInput
-            placeholder="Описание набора (необязательно)"
-            style={styles.input}
-            value={formData.newSetDescription}
-            onChangeText={text => handleInputChange('newSetDescription', text)}
-          />
+          {/*<TextInput*/}
+          {/*  placeholder="Описание набора (необязательно)"*/}
+          {/*  style={styles.input}*/}
+          {/*  value={formData.newSetDescription}*/}
+          {/*  onChangeText={text => handleInputChange('newSetDescription', text)}*/}
+          {/*/>*/}
 
           <View style={styles.buttonRow}>
             <TouchableOpacity style={styles.button} onPress={handleSave}>
