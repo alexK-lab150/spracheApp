@@ -1,15 +1,17 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+
+type Screen = 'home' | 'library' | 'account';
 
 interface UIState {
   isCardModalVisible: boolean;
   isLearningScreenVisible: boolean;
-  isLibraryScreenVisible: boolean;
+  activeScreen: Screen;
 }
 
 const initialState: UIState = {
   isCardModalVisible: false,
   isLearningScreenVisible: false,
-  isLibraryScreenVisible: false,
+  activeScreen: 'home',
 };
 
 const uiSlice = createSlice({
@@ -28,8 +30,8 @@ const uiSlice = createSlice({
     hideLearningScreen(state) {
       state.isLearningScreenVisible = false;
     },
-    toggleLibraryScreen(state) {
-      state.isLibraryScreenVisible = !state.isLibraryScreenVisible;
+    setActiveScreen(state, action: PayloadAction<Screen>) {
+      state.activeScreen = action.payload;
     },
   },
 });
@@ -38,7 +40,7 @@ export const {
   showCardModal,
   hideCardModal,
   showLearningScreen,
+  setActiveScreen,
   hideLearningScreen,
-  toggleLibraryScreen,
 } = uiSlice.actions;
 export default uiSlice.reducer;

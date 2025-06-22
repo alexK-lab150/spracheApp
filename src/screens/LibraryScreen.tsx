@@ -35,7 +35,6 @@ const LibraryScreen: React.FC = () => {
         renderItem={null}
         keyExtractor={() => ''}
       />
-      <FooterTabBar />
     </SafeAreaView>
   );
 };

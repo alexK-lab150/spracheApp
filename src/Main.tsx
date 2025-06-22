@@ -1,25 +1,37 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  StatusBar,
-  useColorScheme,
-  View,
-  StyleSheet,
-} from 'react-native';
+import {SafeAreaView, StatusBar, View, StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import HomeScreen from './screens/HomeScreen';
+import LibraryScreen from './screens/LibraryScreen';
 import LearningScreen from './screens/LearningScreen';
+import AccountScreen from './screens/AccountScreen';
 import {RootState} from './redux/store';
+import FooterTabBar from './components/footer/FooterTabBar';
 
 const Main = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-  const isLearningScreenVisible = useSelector(
-    (state: RootState) => state.ui.isLearningScreenVisible,
+  const isDarkMode = false;
+  const {activeScreen, isLearningScreenVisible} = useSelector(
+    (state: RootState) => state.ui,
   );
 
   const backgroundColor = isDarkMode ? Colors.darker : Colors.lighter;
+
+  const renderScreen = () => {
+    if (isLearningScreenVisible) return <LearningScreen />;
+
+    switch (activeScreen) {
+      case 'home':
+        return <HomeScreen />;
+      case 'library':
+        return <LibraryScreen />;
+      case 'account':
+        return <AccountScreen />;
+      default:
+        return <HomeScreen />;
+    }
+  };
 
   return (
     <SafeAreaView style={[styles.container, {backgroundColor}]}>
@@ -27,9 +39,8 @@ const Main = () => {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundColor}
       />
-      <View style={styles.screenContainer}>
-        {isLearningScreenVisible ? <LearningScreen /> : <HomeScreen />}
-      </View>
+      <View style={styles.screenContainer}>{renderScreen()}</View>
+      {!isLearningScreenVisible && <FooterTabBar />}
     </SafeAreaView>
   );
 };

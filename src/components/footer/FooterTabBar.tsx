@@ -1,8 +1,8 @@
 import React from 'react';
-import {toggleLibraryScreen} from 'src/redux/slices/uiSlice';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import {setActiveScreen} from 'src/redux/slices/uiSlice';
 import {RootState} from 'src/redux/store';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type FooterIconProps = {
@@ -14,9 +14,7 @@ type FooterIconProps = {
 
 const FooterTabBar: React.FC = () => {
   const dispatch = useDispatch();
-  const isLibraryScreenVisible = useSelector(
-    (state: RootState) => state.ui.isLibraryScreenVisible,
-  );
+  const activeScreen = useSelector((state: RootState) => state.ui.activeScreen);
 
   const FooterIcon: React.FC<FooterIconProps> = ({
     name,
@@ -37,11 +35,21 @@ const FooterTabBar: React.FC = () => {
       <FooterIcon
         name="school"
         label="LERNEN"
-        active={isLibraryScreenVisible}
-        onPress={() => dispatch(toggleLibraryScreen())}
+        active={activeScreen === 'home'}
+        onPress={() => dispatch(setActiveScreen('home'))}
       />
-      <FooterIcon name="book" label="BIBLIOTHEK" active />
-      <FooterIcon name="account" label="KONTO" />
+      <FooterIcon
+        name="book"
+        label="BIBLIOTHEK"
+        active={activeScreen === 'library'}
+        onPress={() => dispatch(setActiveScreen('library'))}
+      />
+      <FooterIcon
+        name="account"
+        label="KONTO"
+        active={activeScreen === 'account'}
+        onPress={() => dispatch(setActiveScreen('account'))}
+      />
     </View>
   );
 };
@@ -55,8 +63,13 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
     backgroundColor: '#fff',
   },
-  footerItem: {alignItems: 'center'},
-  footerLabel: {fontSize: 12, color: '#888', marginTop: 2},
+  footerItem: {
+    alignItems: 'center',
+  },
+  footerLabel: {
+    fontSize: 12,
+    marginTop: 4,
+  },
 });
 
 export default FooterTabBar;

@@ -8,7 +8,7 @@ export const selectIsCardModalVisible = createSelector(
   ui => ui.isCardModalVisible,
 );
 
-export const selectIsLibraryScreenVisible = createSelector(
-  [selectUI],
-  ui => ui.isLibraryScreenVisible,
-);
+// export const selectIsLibraryScreenVisible = createSelector(
+//   [selectUI],
+//   ui => ui.isLibraryScreenVisible,
+// );

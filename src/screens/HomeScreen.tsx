@@ -8,30 +8,16 @@ import {
   ScrollView,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  showCardModal,
-  showLearningScreen,
-  toggleLibraryScreen,
-} from 'src/redux/slices/uiSlice';
+import {showCardModal, showLearningScreen} from 'src/redux/slices/uiSlice';
 import CardModal from './../components/CardModal';
 import {selectCardStats} from 'src/redux/selectors/cardsSelectors';
 import Icon from 'react-native-vector-icons/FontAwesome6';
-import LibraryScreen from './LibraryScreen';
-import {
-  selectIsCardModalVisible,
-  selectIsLibraryScreenVisible,
-} from 'src/redux/selectors/uiSelectors';
-import FooterTabBar from 'src/components/footer/FooterTabBar';
+import {selectIsCardModalVisible} from 'src/redux/selectors/uiSelectors';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const {newCount, learningCount, knownCount} = useSelector(selectCardStats);
   const isCardModalVisible = useSelector(selectIsCardModalVisible);
-  const isLibraryScreenVisible = useSelector(selectIsLibraryScreenVisible);
-
-  if (isLibraryScreenVisible) {
-    return <LibraryScreen />;
-  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -76,30 +62,9 @@ const HomeScreen = () => {
             <Text style={styles.addButtonText}>＋</Text>
           </TouchableOpacity>
         </View>
-
-        <View style={styles.navBar}>
-          <Text
-            style={
-              !isLibraryScreenVisible ? styles.navItemActive : styles.navItem
-            }>
-            LERNEN
-          </Text>
-
-          <TouchableOpacity onPress={() => dispatch(toggleLibraryScreen())}>
-            <Text
-              style={
-                isLibraryScreenVisible ? styles.navItemActive : styles.navItem
-              }>
-              BIBLIOTHEK
-            </Text>
-          </TouchableOpacity>
-
-          <Text style={styles.navItem}>KONTO</Text>
-        </View>
       </ScrollView>
 
       <CardModal isVisible={isCardModalVisible} />
-      <FooterTabBar />
     </SafeAreaView>
   );
 };
