@@ -1,26 +1,14 @@
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {
-  View,
-  Text,
-  FlatList,
-  SafeAreaView,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
-import {toggleLibraryScreen} from 'src/redux/slices/uiSlice';
+import {useSelector} from 'react-redux';
+import {View, Text, FlatList, SafeAreaView, StyleSheet} from 'react-native';
 import {RootState} from '@/redux/store';
 import {Set} from 'src/redux/slices/setsSlice';
 import {SetCover} from 'src/components/SetCover';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import FooterTabBar from 'src/components/footer/FooterTabBar';
 
 const LibraryScreen: React.FC = () => {
   const sets = useSelector((state: RootState) => state.sets.sets);
-  const dispatch = useDispatch();
-  const isLibraryScreenVisible = useSelector(
-    (state: RootState) => state.ui.isLibraryScreenVisible,
-  );
-
   const recentlyOpenedSets: Set[] = sets.slice(0, 3);
   const mySources: Set[] = sets;
 
@@ -47,17 +35,7 @@ const LibraryScreen: React.FC = () => {
         renderItem={null}
         keyExtractor={() => ''}
       />
-
-      <View style={styles.footer}>
-        <FooterIcon
-          name="school"
-          label="BIBLIOTHEK"
-          active={isLibraryScreenVisible}
-          onPress={() => dispatch(toggleLibraryScreen())}
-        />
-        <FooterIcon name="book" label="BIBLIOTHEK" active />
-        <FooterIcon name="account" label="KONTO" />
-      </View>
+      <FooterTabBar />
     </SafeAreaView>
   );
 };
@@ -78,27 +56,6 @@ const Section: React.FC<SectionProps> = ({title, data}) => (
       renderItem={({item}) => <SetCover set={item} />}
     />
   </View>
-);
-
-type FooterIconProps = {
-  name: string;
-  label: string;
-  active?: boolean;
-  onPress?: () => void;
-};
-
-const FooterIcon: React.FC<FooterIconProps> = ({
-  name,
-  label,
-  active,
-  onPress,
-}) => (
-  <TouchableOpacity style={styles.footerItem} onPress={onPress}>
-    <Icon name={name} size={24} color={active ? '#1e88e5' : '#888'} />
-    <Text style={[styles.footerLabel, active && {color: '#1e88e5'}]}>
-      {label}
-    </Text>
-  </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
@@ -123,15 +80,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginBottom: 8,
   },
-  footer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingVertical: 10,
-    borderTopWidth: 1,
-    borderColor: '#ddd',
-    backgroundColor: '#fff',
-  },
-  footerItem: {alignItems: 'center'},
-  footerLabel: {fontSize: 12, color: '#888', marginTop: 2},
 });
 export default LibraryScreen;

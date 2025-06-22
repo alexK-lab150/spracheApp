@@ -21,6 +21,7 @@ import {
   selectIsCardModalVisible,
   selectIsLibraryScreenVisible,
 } from 'src/redux/selectors/uiSelectors';
+import FooterTabBar from 'src/components/footer/FooterTabBar';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -98,6 +99,7 @@ const HomeScreen = () => {
       </ScrollView>
 
       <CardModal isVisible={isCardModalVisible} />
+      <FooterTabBar />
     </SafeAreaView>
   );
 };
