@@ -13,6 +13,7 @@ import CardModal from './../components/CardModal';
 import {selectCardStats} from 'src/redux/selectors/cardsSelectors';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import {selectIsCardModalVisible} from 'src/redux/selectors/uiSelectors';
+import RatingDisplay from 'src/components/RatingDisplay';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const HomeScreen = () => {
           <Text style={styles.title}>Deutsch</Text>
           <View style={styles.ratingContainer}>
             <Icon name="chart-simple" size={20} color="#0077CC" />
-            <Text style={styles.ratingText}>125</Text>
+            <RatingDisplay />
           </View>
         </View>
 

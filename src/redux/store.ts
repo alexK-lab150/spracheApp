@@ -15,11 +15,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import cardsReducer from './slices/cardsSlice';
 import setsReducer from './slices/setsSlice';
 import uiReducer from './slices/uiSlice';
+import ratingReducer from './slices/ratingSlice';
 
 const rootReducer = combineReducers({
   cards: cardsReducer,
   sets: setsReducer,
   ui: uiReducer,
+  rating: ratingReducer,
 });
 
 const persistConfig = {

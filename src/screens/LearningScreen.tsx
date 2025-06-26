@@ -9,6 +9,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../redux/store';
 import {updateCardRating} from '../redux/slices/cardsSlice';
+import {increaseRating} from '../redux/slices/ratingSlice';
 import {BlurView} from '@react-native-community/blur';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import {Card} from '../redux/slices/cardsSlice';
@@ -41,6 +42,9 @@ const LearningScreen = () => {
     if (!currentCard) return;
     const delta = direction === 'right' ? 1 : -1;
     dispatch(updateCardRating({id: currentCard.id, delta}));
+    if (direction === 'right') {
+      dispatch(increaseRating());
+    }
     const nextIndex = (currentCardIndex + 1) % visibleCards.length;
     setCurrentCardIndex(nextIndex);
   };
