@@ -4,8 +4,8 @@ import {View, Text, FlatList, SafeAreaView, StyleSheet} from 'react-native';
 import {RootState} from '@/redux/store';
 import {Set} from 'src/redux/slices/setsSlice';
 import {SetCover} from 'src/components/SetCover';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import FooterTabBar from 'src/components/footer/FooterTabBar';
+// import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+// import FooterTabBar from 'src/components/footer/FooterTabBar';
 
 const LibraryScreen: React.FC = () => {
   const sets = useSelector((state: RootState) => state.sets.sets);
@@ -14,16 +14,6 @@ const LibraryScreen: React.FC = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Icon name="menu" size={24} />
-        <View style={styles.languageSelector}>
-          <Text style={styles.flag}>🇩🇪</Text>
-          <Text style={styles.languageText}>DEUTSCH</Text>
-          <Icon name="chevron-down" size={20} />
-        </View>
-        <Icon name="magnify" size={24} />
-      </View>
-
       <FlatList
         ListHeaderComponent={
           <>

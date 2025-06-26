@@ -9,6 +9,7 @@ import LearningScreen from './screens/LearningScreen';
 import AccountScreen from './screens/AccountScreen';
 import {RootState} from './redux/store';
 import FooterTabBar from './components/footer/FooterTabBar';
+import CustomHeader from 'src/components/header/CustomHeader';
 
 const Main = () => {
   const isDarkMode = false;
@@ -39,6 +40,7 @@ const Main = () => {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundColor}
       />
+      <CustomHeader />
       <View style={styles.screenContainer}>{renderScreen()}</View>
       {!isLearningScreenVisible && <FooterTabBar />}
     </SafeAreaView>

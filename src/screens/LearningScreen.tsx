@@ -13,7 +13,7 @@ import {increaseRating} from '../redux/slices/ratingSlice';
 import {BlurView} from '@react-native-community/blur';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import {Card} from '../redux/slices/cardsSlice';
-import {hideLearningScreen} from '../redux/slices/uiSlice';
+import {setHeaderConfig} from '../redux/slices/uiSlice';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 
 const {height} = Dimensions.get('window');
@@ -37,6 +37,16 @@ const LearningScreen = () => {
     setIsTranslationVisible(false);
     setIsReversed(Math.random() < 0.5);
   }, [currentCardIndex]);
+
+  useEffect(() => {
+    dispatch(
+      setHeaderConfig({
+        title: 'Learning',
+        showBack: true,
+        showRating: true,
+      }),
+    );
+  }, [dispatch]);
 
   const handleSwipe = (direction: 'left' | 'right') => {
     if (!currentCard) return;
@@ -70,9 +80,6 @@ const LearningScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => dispatch(hideLearningScreen())}>
-          <Text>Назад</Text>
-        </TouchableOpacity>
         <Text style={styles.headerText}>Учёба</Text>
         <TouchableOpacity onPress={() => setIsTranslationVisible(true)}>
           <Text style={styles.revealButton}>Показать перевод</Text>

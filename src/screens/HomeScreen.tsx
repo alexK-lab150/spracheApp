@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,29 +8,33 @@ import {
   ScrollView,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {showCardModal, showLearningScreen} from 'src/redux/slices/uiSlice';
+import {
+  setHeaderConfig,
+  showCardModal,
+  showLearningScreen,
+} from 'src/redux/slices/uiSlice';
 import CardModal from './../components/CardModal';
 import {selectCardStats} from 'src/redux/selectors/cardsSelectors';
-import Icon from 'react-native-vector-icons/FontAwesome6';
+// import Icon from 'react-native-vector-icons/FontAwesome6';
 import {selectIsCardModalVisible} from 'src/redux/selectors/uiSelectors';
-import RatingDisplay from 'src/components/RatingDisplay';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const {newCount, learningCount, knownCount} = useSelector(selectCardStats);
   const isCardModalVisible = useSelector(selectIsCardModalVisible);
 
+  useEffect(() => {
+    dispatch(
+      setHeaderConfig({
+        title: 'Home',
+        showRating: true,
+      }),
+    );
+  }, [dispatch]);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.inner}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Deutsch</Text>
-          <View style={styles.ratingContainer}>
-            <Icon name="chart-simple" size={20} color="#0077CC" />
-            <RatingDisplay />
-          </View>
-        </View>
-
         <View style={styles.statsContainer}>
           <StatBox
             number={newCount.toString()}

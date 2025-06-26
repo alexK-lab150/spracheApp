@@ -1,6 +1,7 @@
 import React from 'react';
-import {Text, StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
+import {View, Text, StyleSheet} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {RootState} from 'src/redux/store';
 
 const RatingDisplay = () => {
@@ -14,16 +15,29 @@ const RatingDisplay = () => {
     return '#666';
   };
 
+  const iconName = rating > 25 ? 'magnifying-glass' : 'chart-simple';
+
   return (
-    <Text style={[styles.ratingText, {color: getColor()}]}>
-      {rating.toFixed(1)}
-    </Text>
+    <View style={styles.container}>
+      <Icon name={iconName} size={18} color={getColor()} style={styles.icon} />
+      <Text style={[styles.ratingText, {color: getColor()}]}>
+        {rating.toFixed(1)}
+      </Text>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  icon: {
+    marginRight: 2,
+  },
   ratingText: {
-    fontSize: 24,
+    fontSize: 16, // уменьшено для соответствия хедеру
     fontWeight: 'bold',
   },
 });
