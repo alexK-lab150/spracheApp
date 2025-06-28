@@ -41,7 +41,6 @@ const CardModal: React.FC<CardModalProps> = () => {
   const handleSave = () => {
     const {germanWord, translation, newSetName, selectedSetId} = formData;
 
-    // Валидация
     if (!germanWord.trim() || !translation.trim()) {
       ToastAndroid.show('Введите слово и перевод', ToastAndroid.SHORT);
       return;
