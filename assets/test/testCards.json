@@ -1,0 +1,183 @@
+[
+  {
+    "id": "1",
+    "word": "Haus",
+    "translation": "дом",
+    "setId": null,
+    "rating": 0,
+    "status": "new",
+    "createdAt": 1719000000000
+  },
+  {
+    "id": "2",
+    "word": "Baum",
+    "translation": "дерево",
+    "setId": null,
+    "rating": 5,
+    "status": "new",
+    "createdAt": 1719000001000
+  },
+  {
+    "id": "3",
+    "word": "Wasser",
+    "translation": "вода",
+    "setId": null,
+    "rating": 10,
+    "status": "learning",
+    "createdAt": 1719000002000
+  },
+  {
+    "id": "4",
+    "word": "Buch",
+    "translation": "книга",
+    "setId": null,
+    "rating": 15,
+    "status": "learning",
+    "createdAt": 1719000003000
+  },
+  {
+    "id": "5",
+    "word": "Stuhl",
+    "translation": "стул",
+    "setId": null,
+    "rating": 20,
+    "status": "learning",
+    "createdAt": 1719000004000
+  },
+  {
+    "id": "6",
+    "word": "Fenster",
+    "translation": "окно",
+    "setId": null,
+    "rating": 25,
+    "status": "learning",
+    "createdAt": 1719000005000
+  },
+  {
+    "id": "7",
+    "word": "Tisch",
+    "translation": "стол",
+    "setId": null,
+    "rating": 30,
+    "status": "learning",
+    "createdAt": 1719000006000
+  },
+  {
+    "id": "8",
+    "word": "Auto",
+    "translation": "машина",
+    "setId": null,
+    "rating": 35,
+    "status": "learning",
+    "createdAt": 1719000007000
+  },
+  {
+    "id": "9",
+    "word": "Straße",
+    "translation": "улица",
+    "setId": null,
+    "rating": 40,
+    "status": "learning",
+    "createdAt": 1719000008000
+  },
+  {
+    "id": "10",
+    "word": "Lampe",
+    "translation": "лампа",
+    "setId": null,
+    "rating": 45,
+    "status": "learning",
+    "createdAt": 1719000009000
+  },
+  {
+    "id": "11",
+    "word": "Hund",
+    "translation": "собака",
+    "setId": null,
+    "rating": 50,
+    "status": "known",
+    "createdAt": 1719000010000
+  },
+  {
+    "id": "12",
+    "word": "Katze",
+    "translation": "кошка",
+    "setId": null,
+    "rating": 55,
+    "status": "known",
+    "createdAt": 1719000011000
+  },
+  {
+    "id": "13",
+    "word": "Milch",
+    "translation": "молоко",
+    "setId": null,
+    "rating": 60,
+    "status": "known",
+    "createdAt": 1719000012000
+  },
+  {
+    "id": "14",
+    "word": "Tür",
+    "translation": "дверь",
+    "setId": null,
+    "rating": 5,
+    "status": "new",
+    "createdAt": 1719000013000
+  },
+  {
+    "id": "15",
+    "word": "Blume",
+    "translation": "цветок",
+    "setId": null,
+    "rating": 25,
+    "status": "learning",
+    "createdAt": 1719000014000
+  },
+  {
+    "id": "16",
+    "word": "Himmel",
+    "translation": "небо",
+    "setId": null,
+    "rating": 35,
+    "status": "learning",
+    "createdAt": 1719000015000
+  },
+  {
+    "id": "17",
+    "word": "Sonne",
+    "translation": "солнце",
+    "setId": null,
+    "rating": 50,
+    "status": "known",
+    "createdAt": 1719000016000
+  },
+  {
+    "id": "18",
+    "word": "Mond",
+    "translation": "луна",
+    "setId": null,
+    "rating": 60,
+    "status": "known",
+    "createdAt": 1719000017000
+  },
+  {
+    "id": "19",
+    "word": "Schule",
+    "translation": "школа",
+    "setId": null,
+    "rating": 10,
+    "status": "learning",
+    "createdAt": 1719000018000
+  },
+  {
+    "id": "20",
+    "word": "Apfel",
+    "translation": "яблоко",
+    "setId": null,
+    "rating": 0,
+    "status": "new",
+    "createdAt": 1719000019000
+  }
+]
+

@@ -17,6 +17,8 @@ import setsReducer from './slices/setsSlice';
 import uiReducer from './slices/uiSlice';
 import ratingReducer from './slices/ratingSlice';
 
+import {USE_TEST_CARDS} from 'src/utils/devConfig';
+
 const rootReducer = combineReducers({
   cards: cardsReducer,
   sets: setsReducer,
@@ -24,16 +26,26 @@ const rootReducer = combineReducers({
   rating: ratingReducer,
 });
 
-const persistConfig = {
-  key: 'root',
-  storage: AsyncStorage,
-  whitelist: ['cards', 'sets'],
-};
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+const finalReducer = USE_TEST_CARDS
+  ? persistReducer(
+      {
+        key: 'root',
+        storage: AsyncStorage,
+        whitelist: ['sets'], // Исключаем 'cards' в тестовом режиме
+      },
+      rootReducer,
+    )
+  : persistReducer(
+      {
+        key: 'root',
+        storage: AsyncStorage,
+        whitelist: ['cards', 'sets'], // Полный persist в обычном режиме
+      },
+      rootReducer,
+    );
 
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: finalReducer,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
@@ -44,5 +56,5 @@ export const store = configureStore({
 
 export const persistor = persistStore(store);
 
-export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
