@@ -16,6 +16,7 @@ import cardsReducer from './slices/cardsSlice';
 import setsReducer from './slices/setsSlice';
 import uiReducer from './slices/uiSlice';
 import ratingReducer from './slices/ratingSlice';
+import synonymGameReducer from './slices/synonymGameSlice';
 
 import {USE_TEST_CARDS} from 'src/utils/devConfig';
 
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   sets: setsReducer,
   ui: uiReducer,
   rating: ratingReducer,
+  synonymGame: synonymGameReducer,
 });
 
 const finalReducer = USE_TEST_CARDS

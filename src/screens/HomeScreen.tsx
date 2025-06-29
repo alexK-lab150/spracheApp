@@ -11,11 +11,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {
   setHeaderConfig,
   showCardModal,
-  showLearningScreen,
+  showLearningModeSelection,
 } from 'src/redux/slices/uiSlice';
 import CardModal from './../components/CardModal';
 import {selectCardStats} from 'src/redux/selectors/cardsSelectors';
-// import Icon from 'react-native-vector-icons/FontAwesome6';
 import {selectIsCardModalVisible} from 'src/redux/selectors/uiSelectors';
 
 const HomeScreen = () => {
@@ -55,7 +54,7 @@ const HomeScreen = () => {
 
         <TouchableOpacity
           style={styles.startButton}
-          onPress={() => dispatch(showLearningScreen())}>
+          onPress={() => dispatch(showLearningModeSelection())}>
           <Text style={styles.startButtonText}>ANFANG</Text>
         </TouchableOpacity>
 
@@ -98,13 +97,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 20,
   },
-
   title: {
     fontSize: 28,
     fontWeight: 'bold',
     color: '#333',
   },
-
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -114,7 +111,6 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     marginBottom: 20,
   },
-
   ratingContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -123,14 +119,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     borderRadius: 8,
   },
-
   ratingText: {
     marginLeft: 6,
     fontSize: 16,
     fontWeight: 'bold',
     color: '#0077CC',
   },
-
   statsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',

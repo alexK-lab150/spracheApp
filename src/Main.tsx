@@ -7,19 +7,27 @@ import HomeScreen from './screens/HomeScreen';
 import LibraryScreen from './screens/LibraryScreen';
 import LearningScreen from './screens/LearningScreen';
 import AccountScreen from './screens/AccountScreen';
+import LearningModeSelectionScreen from './screens/LearningModeSelectionScreen';
+import SynonymGameScreen from './screens/SynonymsGameScreen';
 import {RootState} from './redux/store';
 import FooterTabBar from './components/footer/FooterTabBar';
 import CustomHeader from 'src/components/header/CustomHeader';
 
 const Main = () => {
   const isDarkMode = false;
-  const {activeScreen, isLearningScreenVisible} = useSelector(
-    (state: RootState) => state.ui,
-  );
+  const {
+    activeScreen,
+    isLearningScreenVisible,
+    isLearningModeSelectionVisible,
+    isSynonymGameVisible,
+  } = useSelector((state: RootState) => state.ui);
 
   const backgroundColor = isDarkMode ? Colors.darker : Colors.lighter;
 
   const renderScreen = () => {
+    // Порядок проверки важен - сначала специфичные экраны, затем общие
+    if (isSynonymGameVisible) return <SynonymGameScreen />;
+    if (isLearningModeSelectionVisible) return <LearningModeSelectionScreen />;
     if (isLearningScreenVisible) return <LearningScreen />;
 
     switch (activeScreen) {
@@ -42,7 +50,10 @@ const Main = () => {
       />
       <CustomHeader />
       <View style={styles.screenContainer}>{renderScreen()}</View>
-      {!isLearningScreenVisible && <FooterTabBar />}
+      {/* Скрываем FooterTabBar для всех "модальных" экранов */}
+      {!isLearningScreenVisible &&
+        !isLearningModeSelectionVisible &&
+        !isSynonymGameVisible && <FooterTabBar />}
     </SafeAreaView>
   );
 };

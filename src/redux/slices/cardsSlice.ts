@@ -10,6 +10,7 @@ export interface Card {
   rating: number;
   status: 'new' | 'learning' | 'known';
   createdAt: number;
+  synonyms: string[];
 }
 
 interface CardsState {
@@ -41,6 +42,7 @@ const prepareAddCard = ({
       status: 'new' as const,
       rating: 0,
       createdAt: Date.now(),
+      synonyms: [],
     },
   };
 };
