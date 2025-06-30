@@ -9,26 +9,28 @@ import {
   ToastAndroid,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {hideCardModal} from 'src/redux/slices/uiSlice';
+import {hideAddCardModal} from 'src/redux/slices/uiSlice';
 import {addCard} from 'src/redux/slices/cardsSlice';
-// import {addSet} from 'src/redux/slices/setsSlice';
 import {RootState} from 'src/redux/store';
 
-interface CardModalProps {
+interface AddCardModalProps {
   isVisible?: boolean;
 }
 
-const CardModal: React.FC<CardModalProps> = () => {
+const AddCardModal: React.FC<AddCardModalProps> = () => {
   const dispatch = useDispatch();
   const sets = useSelector((state: RootState) => state.sets.sets);
   const cards = useSelector((state: RootState) => state.cards.cards);
   const visible = useSelector(
-    (state: RootState) => state.ui.isCardModalVisible,
+    (state: RootState) => state.ui.isAddCardModalVisible,
   );
+  const [wasWarned, setWasWarned] = useState(false);
 
   const [formData, setFormData] = useState({
-    germanWord: '',
+    word: '',
     translation: '',
+    synonym1: '',
+    synonym2: '',
     selectedSetId: null as string | null,
     newSetName: '',
     newSetDescription: '',
@@ -39,17 +41,17 @@ const CardModal: React.FC<CardModalProps> = () => {
   };
 
   const handleSave = () => {
-    const {germanWord, translation, newSetName, selectedSetId} = formData;
+    const {word, translation, synonym1, synonym2, newSetName, selectedSetId} =
+      formData;
 
-    if (!germanWord.trim() || !translation.trim()) {
+    if (!word.trim() || !translation.trim()) {
       ToastAndroid.show('Введите слово и перевод', ToastAndroid.SHORT);
       return;
     }
 
-    // Проверка на дубликат
     const duplicate = cards.some(
       card =>
-        card.word.toLowerCase() === germanWord.trim().toLowerCase() &&
+        card.word.toLowerCase() === word.trim().toLowerCase() &&
         card.translation.toLowerCase() === translation.trim().toLowerCase(),
     );
 
@@ -58,7 +60,17 @@ const CardModal: React.FC<CardModalProps> = () => {
       return;
     }
 
-    // Логика работы с набором
+    if (!synonym1.trim() || !synonym2.trim()) {
+      if (!wasWarned) {
+        ToastAndroid.show(
+          'Синонимы не указаны — карточка не будет участвовать в игре синонимов. Нажмите "Сохранить" ещё раз для подтверждения.',
+          ToastAndroid.LONG,
+        );
+        setWasWarned(true);
+        return;
+      }
+    }
+
     let setIdToUse = selectedSetId;
 
     if (newSetName.trim()) {
@@ -73,34 +85,31 @@ const CardModal: React.FC<CardModalProps> = () => {
         );
         return;
       }
-
-      // dispatch(
-      //   addSet({
-      //     name: newSetName.trim(),
-      //     description: newSetDescription.trim(),
-      //   }),
-      // );
     }
 
-    // Сохранение карточки
+    const synonyms = [synonym1.trim(), synonym2.trim()].filter(Boolean);
+
     dispatch(
       addCard({
-        word: germanWord.trim(),
+        word: word.trim(),
         translation: translation.trim(),
         setId: setIdToUse || null,
+        synonyms,
       }),
     );
 
-    // Сброс формы
     setFormData({
-      germanWord: '',
+      word: '',
       translation: '',
+      synonym1: '',
+      synonym2: '',
       selectedSetId: null,
       newSetName: '',
       newSetDescription: '',
     });
+    setWasWarned(false);
 
-    dispatch(hideCardModal());
+    dispatch(hideAddCardModal());
   };
 
   return (
@@ -112,8 +121,8 @@ const CardModal: React.FC<CardModalProps> = () => {
           <TextInput
             placeholder="Слово на немецком"
             style={styles.input}
-            value={formData.germanWord}
-            onChangeText={text => handleInputChange('germanWord', text)}
+            value={formData.word}
+            onChangeText={text => handleInputChange('word', text)}
           />
 
           <TextInput
@@ -123,21 +132,19 @@ const CardModal: React.FC<CardModalProps> = () => {
             onChangeText={text => handleInputChange('translation', text)}
           />
 
-          {/*<Text style={styles.sectionTitle}>Или создайте новый набор:</Text>*/}
+          <TextInput
+            placeholder="Синоним 1 (необязательно)"
+            style={styles.input}
+            value={formData.synonym1}
+            onChangeText={text => handleInputChange('synonym1', text)}
+          />
 
-          {/*<TextInput*/}
-          {/*  placeholder="Название набора"*/}
-          {/*  style={styles.input}*/}
-          {/*  value={formData.newSetName}*/}
-          {/*  onChangeText={text => handleInputChange('newSetName', text)}*/}
-          {/*/>*/}
-
-          {/*<TextInput*/}
-          {/*  placeholder="Описание набора (необязательно)"*/}
-          {/*  style={styles.input}*/}
-          {/*  value={formData.newSetDescription}*/}
-          {/*  onChangeText={text => handleInputChange('newSetDescription', text)}*/}
-          {/*/>*/}
+          <TextInput
+            placeholder="Синоним 2 (необязательно)"
+            style={styles.input}
+            value={formData.synonym2}
+            onChangeText={text => handleInputChange('synonym2', text)}
+          />
 
           <View style={styles.buttonRow}>
             <TouchableOpacity style={styles.button} onPress={handleSave}>
@@ -146,7 +153,7 @@ const CardModal: React.FC<CardModalProps> = () => {
 
             <TouchableOpacity
               style={[styles.button, styles.cancelButton]}
-              onPress={() => dispatch(hideCardModal())}>
+              onPress={() => dispatch(hideAddCardModal())}>
               <Text style={styles.buttonText}>Отмена</Text>
             </TouchableOpacity>
           </View>
@@ -156,7 +163,7 @@ const CardModal: React.FC<CardModalProps> = () => {
   );
 };
 
-export default CardModal;
+export default AddCardModal;
 
 const styles = StyleSheet.create({
   modalBackground: {

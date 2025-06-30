@@ -3,9 +3,9 @@ import {RootState} from '../store';
 
 const selectUI = (state: RootState) => state.ui;
 
-export const selectIsCardModalVisible = createSelector(
+export const selectIsAddCardModalVisible = createSelector(
   [selectUI],
-  ui => ui.isCardModalVisible,
+  ui => ui.isAddCardModalVisible,
 );
 
 // export const selectIsLibraryScreenVisible = createSelector(

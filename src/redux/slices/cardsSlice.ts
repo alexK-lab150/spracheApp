@@ -28,10 +28,12 @@ const prepareAddCard = ({
   word,
   translation,
   setId,
+  synonyms = [],
 }: {
   word: string;
   translation: string;
   setId?: string | null;
+  synonyms?: string[];
 }) => {
   return {
     payload: {
@@ -42,7 +44,7 @@ const prepareAddCard = ({
       status: 'new' as const,
       rating: 0,
       createdAt: Date.now(),
-      synonyms: [],
+      synonyms,
     },
   };
 };

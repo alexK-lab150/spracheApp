@@ -10,17 +10,17 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {
   setHeaderConfig,
-  showCardModal,
+  showAddCardModal,
   showLearningModeSelection,
 } from 'src/redux/slices/uiSlice';
-import CardModal from './../components/CardModal';
+import AddCardModal from '@components/AddCardModal';
 import {selectCardStats} from 'src/redux/selectors/cardsSelectors';
-import {selectIsCardModalVisible} from 'src/redux/selectors/uiSelectors';
+import {selectIsAddCardModalVisible} from 'src/redux/selectors/uiSelectors';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const {newCount, learningCount, knownCount} = useSelector(selectCardStats);
-  const isCardModalVisible = useSelector(selectIsCardModalVisible);
+  const isAddCardModalVisible = useSelector(selectIsAddCardModalVisible);
 
   useEffect(() => {
     dispatch(
@@ -62,13 +62,13 @@ const HomeScreen = () => {
           <Text style={styles.cardLabel}>Karten</Text>
           <TouchableOpacity
             style={styles.addButton}
-            onPress={() => dispatch(showCardModal())}>
+            onPress={() => dispatch(showAddCardModal())}>
             <Text style={styles.addButtonText}>＋</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
 
-      <CardModal isVisible={isCardModalVisible} />
+      <AddCardModal isVisible={isAddCardModalVisible} />
     </SafeAreaView>
   );
 };

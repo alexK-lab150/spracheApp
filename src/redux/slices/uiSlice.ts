@@ -11,7 +11,7 @@ interface HeaderConfig {
 }
 
 interface UIState {
-  isCardModalVisible: boolean;
+  isAddCardModalVisible: boolean;
   isLearningScreenVisible: boolean;
   isLearningModeSelectionVisible: boolean;
   isSynonymGameVisible: boolean;
@@ -21,7 +21,7 @@ interface UIState {
 }
 
 const initialState: UIState = {
-  isCardModalVisible: false,
+  isAddCardModalVisible: false,
   isLearningScreenVisible: false,
   isLearningModeSelectionVisible: false,
   isSynonymGameVisible: false,
@@ -37,11 +37,11 @@ const uiSlice = createSlice({
   name: 'ui',
   initialState,
   reducers: {
-    showCardModal(state) {
-      state.isCardModalVisible = true;
+    showAddCardModal(state) {
+      state.isAddCardModalVisible = true;
     },
-    hideCardModal(state) {
-      state.isCardModalVisible = false;
+    hideAddCardModal(state) {
+      state.isAddCardModalVisible = false;
     },
     showLearningScreen(state) {
       state.isLearningScreenVisible = true;
@@ -85,8 +85,8 @@ const uiSlice = createSlice({
 });
 
 export const {
-  showCardModal,
-  hideCardModal,
+  showAddCardModal,
+  hideAddCardModal,
   showLearningScreen,
   hideLearningScreen,
   showLearningModeSelection,
