@@ -27,13 +27,13 @@ const SynonymsGameScreen = () => {
   const allCards = useSelector((state: RootState) => state.cards.cards);
   const [userInput, setUserInput] = useState('');
 
-  // ✅ Мемоизируем список подходящих карточек
+  // Мемоизируем список подходящих карточек
   const validCards = useMemo(
     () => allCards.filter(card => card.synonyms && card.synonyms.length >= 1),
     [allCards],
   );
 
-  // ✅ Вызываем nextSynonymCard один раз при монтировании, если ещё нет карточки
+  //Вызываем nextSynonymCard один раз при монтировании, если ещё нет карточки
   useEffect(() => {
     if (!currentCard && validCards.length > 0) {
       dispatch(nextSynonymCard(validCards));

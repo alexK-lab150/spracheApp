@@ -4,29 +4,39 @@ import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {RootState} from 'src/redux/store';
 import RatingDisplay from 'src/components/RatingDisplay';
-import {setActiveScreen, hideLearningScreen} from 'src/redux/slices/uiSlice';
+import {
+  setActiveScreen,
+  hideLearningScreen,
+  setSynonymGameVisible,
+} from 'src/redux/slices/uiSlice';
 
 const CustomHeader = () => {
-  const {activeScreen, isLearningScreenVisible} = useSelector(
-    (state: RootState) => state.ui,
-  );
+  const {activeScreen, isLearningScreenVisible, isSynonymGameVisible} =
+    useSelector((state: RootState) => state.ui);
   const dispatch = useDispatch();
 
-  const isLearningOrAccount =
-    isLearningScreenVisible || activeScreen === 'account';
+  const isLearningOrAccountOrGame =
+    isLearningScreenVisible ||
+    activeScreen === 'account' ||
+    isSynonymGameVisible;
   const showRating =
     activeScreen === 'home' ||
     isLearningScreenVisible ||
     activeScreen === 'account';
 
   const handleBack = () => {
-    dispatch(setActiveScreen('home'));
-    dispatch(hideLearningScreen());
+    if (isSynonymGameVisible) {
+      dispatch(setSynonymGameVisible(false));
+    } else if (isLearningScreenVisible) {
+      dispatch(hideLearningScreen());
+    } else {
+      dispatch(setActiveScreen('home'));
+    }
   };
 
   return (
     <View style={styles.header}>
-      {isLearningOrAccount ? (
+      {isLearningOrAccountOrGame ? (
         <TouchableOpacity onPress={handleBack}>
           <Icon name="chevron-left" size={28} />
         </TouchableOpacity>
