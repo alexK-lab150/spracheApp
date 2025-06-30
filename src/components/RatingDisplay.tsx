@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 import {View, Text, StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/FontAwesome6';
 import {RootState} from 'src/redux/store';
 
 const RatingDisplay = () => {

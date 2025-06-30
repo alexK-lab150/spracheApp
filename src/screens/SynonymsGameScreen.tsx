@@ -17,23 +17,22 @@ const SynonymsGameScreen = () => {
   const dispatch = useDispatch();
   const {
     currentCard,
-    targetWord,
+    originalTargetWord,
     hintSynonyms,
     attemptsLeft,
     openedLetters,
     showAnswer,
+    isCorrectAnswer,
   } = useSelector((state: RootState) => state.synonymGame);
 
   const allCards = useSelector((state: RootState) => state.cards.cards);
   const [userInput, setUserInput] = useState('');
 
-  // Мемоизируем список подходящих карточек
   const validCards = useMemo(
-    () => allCards.filter(card => card.synonyms && card.synonyms.length >= 1),
+    () => allCards.filter(card => card.synonyms?.length >= 1),
     [allCards],
   );
 
-  //Вызываем nextSynonymCard один раз при монтировании, если ещё нет карточки
   useEffect(() => {
     if (!currentCard && validCards.length > 0) {
       dispatch(nextSynonymCard(validCards));
@@ -41,9 +40,10 @@ const SynonymsGameScreen = () => {
   }, [currentCard, validCards, dispatch]);
 
   const handleSubmit = () => {
-    if (!userInput.trim()) return;
-    dispatch(submitSynonymAnswer(userInput.trim()));
-    setUserInput('');
+    if (userInput.trim()) {
+      dispatch(submitSynonymAnswer(userInput));
+      setUserInput('');
+    }
   };
 
   const handleNext = () => {
@@ -51,7 +51,7 @@ const SynonymsGameScreen = () => {
     setUserInput('');
   };
 
-  if (!currentCard || !targetWord) {
+  if (!currentCard || !originalTargetWord) {
     return (
       <View style={styles.center}>
         <Text style={styles.doneText}>Нет доступных карточек</Text>
@@ -59,9 +59,12 @@ const SynonymsGameScreen = () => {
     );
   }
 
-  const maskedWord = targetWord
+  // Формируем подсказку с учетом регистра оригинального слова
+  const maskedWord = originalTargetWord
     .split('')
-    .map((char, idx) => (openedLetters.includes(idx) ? char : '_'))
+    .map((char: string, idx: number) =>
+      openedLetters.includes(idx) ? char : '_',
+    )
     .join('');
 
   return (
@@ -69,7 +72,7 @@ const SynonymsGameScreen = () => {
       <Text style={styles.title}>Угадай слово по синонимам</Text>
 
       <View style={styles.synonymsBox}>
-        {hintSynonyms.map((synonym: string, index: number) => (
+        {hintSynonyms.map((synonym, index) => (
           <Text key={index} style={styles.synonym}>
             {synonym}
           </Text>
@@ -84,6 +87,8 @@ const SynonymsGameScreen = () => {
         onChangeText={setUserInput}
         editable={!showAnswer}
         placeholder="Ваш ответ"
+        placeholderTextColor="#888"
+        autoCapitalize="none"
       />
 
       {openedLetters.length > 0 && !showAnswer && (
@@ -91,95 +96,114 @@ const SynonymsGameScreen = () => {
       )}
 
       {!showAnswer ? (
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>Проверить</Text>
-        </TouchableOpacity>
+        <>
+          <TouchableOpacity
+            style={[styles.button, !userInput.trim() && styles.disabledButton]}
+            onPress={handleSubmit}
+            disabled={!userInput.trim()}>
+            <Text style={styles.buttonText}>Проверить</Text>
+          </TouchableOpacity>
+          <Text style={styles.attempts}>Осталось попыток: {attemptsLeft}</Text>
+        </>
       ) : (
         <>
-          <Text style={styles.result}>
-            {userInput.trim().toLowerCase() === targetWord.toLowerCase()
+          <Text
+            style={[
+              styles.result,
+              isCorrectAnswer ? styles.success : styles.error,
+            ]}>
+            {isCorrectAnswer
               ? 'Правильно!'
-              : `Неверно. Ответ: ${targetWord}`}
+              : `Неверно. Ответ: ${originalTargetWord}`}
           </Text>
           <TouchableOpacity style={styles.button} onPress={handleNext}>
             <Text style={styles.buttonText}>Следующее слово</Text>
           </TouchableOpacity>
         </>
       )}
-
-      {!showAnswer && (
-        <Text style={styles.attempts}>Осталось попыток: {attemptsLeft}</Text>
-      )}
     </View>
   );
 };
-
-export default SynonymsGameScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    justifyContent: 'center',
     backgroundColor: '#121212',
+    justifyContent: 'center',
   },
   title: {
     fontSize: 24,
-    color: '#fff',
+    color: '#FFF',
     textAlign: 'center',
     marginBottom: 20,
+    fontWeight: 'bold',
   },
   synonymsBox: {
-    backgroundColor: '#1e1e1e',
-    padding: 15,
+    backgroundColor: '#1E1E1E',
     borderRadius: 10,
+    padding: 15,
     marginBottom: 20,
   },
   synonym: {
-    color: '#a0e3a0',
+    color: '#A0E3A0',
     fontSize: 18,
-    marginBottom: 5,
+    marginBottom: 8,
   },
   label: {
-    color: '#fff',
-    marginBottom: 5,
+    color: '#FFF',
+    fontSize: 16,
+    marginBottom: 8,
   },
   input: {
     backgroundColor: '#333',
-    color: '#fff',
+    color: '#FFF',
     borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    marginBottom: 10,
+    padding: 12,
+    fontSize: 16,
+    marginBottom: 12,
   },
   button: {
-    backgroundColor: '#4caf50',
-    padding: 10,
+    backgroundColor: '#4CAF50',
     borderRadius: 8,
+    padding: 15,
     alignItems: 'center',
-    marginTop: 10,
+    marginVertical: 10,
+  },
+  disabledButton: {
+    opacity: 0.6,
   },
   buttonText: {
-    color: '#fff',
+    color: '#FFF',
     fontSize: 16,
+    fontWeight: 'bold',
   },
   result: {
-    color: '#fff',
     fontSize: 18,
     textAlign: 'center',
-    marginTop: 20,
+    marginVertical: 15,
+    padding: 12,
+    borderRadius: 8,
+  },
+  success: {
+    backgroundColor: '#1B5E2030',
+    color: '#4CAF50',
+  },
+  error: {
+    backgroundColor: '#B71C1C30',
+    color: '#F44336',
   },
   attempts: {
-    color: '#ccc',
-    fontSize: 14,
+    color: '#FF9800',
     textAlign: 'center',
-    marginTop: 10,
+    fontSize: 16,
   },
   hint: {
-    color: '#ffa500',
-    fontSize: 16,
+    color: '#FFA500',
     textAlign: 'center',
+    fontSize: 16,
     marginVertical: 10,
+    fontFamily: 'monospace',
   },
   center: {
     flex: 1,
@@ -188,7 +212,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#121212',
   },
   doneText: {
-    color: '#fff',
+    color: '#FFF',
     fontSize: 18,
   },
 });
+
+export default SynonymsGameScreen;
